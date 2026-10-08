@@ -1,0 +1,312 @@
+wizard_name: "Digital Twin Creation Wizard"
+version: 2.0
+
+# Reusable option sets (to maintain consistency)
+option_sets:
+  industries:
+    - value: aerospace
+      label: "Aerospace & Defense"
+    - value: automotive
+      label: "Automotive"
+    - value: civil_infra
+      label: "Civil Infrastructure (Bridges, Tunnels, Roads)"
+    - value: energy
+      label: "Energy & Utilities"
+    - value: healthcare
+      label: "Healthcare & Medical"
+    - value: manufacturing
+      label: "Manufacturing & Industrial"
+    - value: maritime
+      label: "Maritime & Shipping"
+    - value: rail
+      label: "Rail & Transit"
+    - value: smart_city
+      label: "Smart City & Urban Planning"
+    - value: consumer_goods
+      label: "Consumer Goods"
+    - value: research
+      label: "Research & Education"
+  use_cases:
+    - value: realtime_monitoring
+      label: "Real-time Monitoring & Alerts"
+    - value: predictive_maintenance
+      label: "Predictive Maintenance"
+    - value: simulation
+      label: "Simulation & What-If Analysis"
+    - value: design_validation
+      label: "Design Validation & Prototyping"
+    - value: asset_management
+      label: "Asset Lifecycle Management"
+    - value: sustainability
+      label: "Sustainability & Carbon Footprint"
+    - value: training
+      label: "Training & VR/AR"
+  data_sources:
+    - value: iot_sensors
+      label: "IoT Sensor Data (Real-time)"
+    - value: cad_models
+      label: "CAD / 3D Models"
+    - value: gis_data
+      label: "GIS / Geospatial Data"
+    - value: lidar_scans
+      label: "LiDAR / Point Clouds"
+    - value: imagery
+      label: "Photographs / Video"
+    - value: acoustic
+      label: "Acoustic / Ultrasonic (e.g., Nu-Sense)"
+    - value: bim
+      label: "BIM Models"
+    - value: historical_records
+      label: "Historical Maintenance Records"
+    - value: environmental
+      label: "Environmental / Weather Data"
+
+steps:
+  - id: step_type
+    title: "Select Digital Twin Type"
+    description: "Choose the primary context for your digital twin. This determines licensing, collaboration model, and available features."
+    fields:
+      - name: twin_type
+        label: "Twin Type"
+        type: radio
+        required: true
+        options:
+          - value: personal
+            label: "Personal"
+            description: "For individual experimentation, learning, or hobby projects. Limited collaboration, free tier available."
+          - value: enterprise
+            label: "Enterprise"
+            description: "For commercial organizations. Full feature set, team management, and dedicated support."
+          - value: open_source
+            label: "Open Source"
+            description: "For community-driven projects. Public visibility, collaborative governance, and compliance with open source licenses."
+    next_step: step_category
+
+  - id: step_category
+    title: "Choose Twin Category"
+    description: "Select the specific category that best describes your digital twin. Categories define the scope and default templates."
+    fields:
+      - name: twin_category
+        label: "Twin Category"
+        type: radio
+        required: true
+        options:
+          - value: company
+            label: "Company Twin"
+            description: "A holistic twin representing an entire organization, including assets, processes, and workflows."
+            condition: "{{ twin_type == 'enterprise' }}"
+          - value: product
+            label: "Product Twin"
+            description: "A twin of a specific product, covering design, manufacturing, usage, and end-of-life."
+            condition: "{{ twin_type == 'enterprise' or twin_type == 'personal' }}"
+          - value: project
+            label: "Project Twin"
+            description: "A twin for a specific initiative (e.g., construction, infrastructure, research). Spans project lifecycle."
+            condition: "{{ twin_type != '' }}"
+          - value: system
+            label: "System Twin"
+            description: "A twin of an interconnected system (e.g., power grid, transportation network)."
+            condition: "{{ twin_type == 'enterprise' }}"
+          - value: process
+            label: "Process Twin"
+            description: "A twin representing a manufacturing or operational process, focusing on flow and efficiency."
+            condition: "{{ twin_type == 'enterprise' }}"
+          - value: asset
+            label: "Asset Twin"
+            description: "A twin of a physical asset (e.g., machine, building, bridge). Focus on condition and maintenance."
+            condition: "{{ twin_type != '' }}"
+    next_step: step_industry
+
+  - id: step_industry
+    title: "Select Industry / Domain"
+    description: "Choose the industry that best aligns with your twin. This helps pre-configure relevant data models and compliance rules."
+    fields:
+      - name: industry
+        label: "Industry"
+        type: select
+        required: true
+        options: "{{ option_sets.industries }}"
+    next_step: step_use_case
+
+  - id: step_use_case
+    title: "Primary Use Case"
+    description: "What is the main objective of your digital twin? Select one or more primary use cases."
+    fields:
+      - name: use_cases
+        label: "Use Cases"
+        type: multi_select
+        required: true
+        options: "{{ option_sets.use_cases }}"
+    next_step: step_data_sources
+
+  - id: step_data_sources
+    title: "Data Sources & Integration"
+    description: "Select the data sources you plan to integrate. This helps us estimate ingestion requirements and suggest connectors."
+    fields:
+      - name: data_sources
+        label: "Data Sources"
+        type: multi_select
+        required: true
+        options: "{{ option_sets.data_sources }}"
+      - name: has_real_time
+        label: "Do you require real-time data streaming?"
+        type: checkbox
+        description: "If checked, we will provision a real-time ingestion pipeline."
+        condition: "{{ 'iot_sensors' in data_sources or 'acoustic' in data_sources }}"
+    next_step: step_compliance
+
+  - id: step_compliance
+    title: "Compliance & Standards"
+    description: "Specify any industry standards or compliance requirements your twin must adhere to."
+    fields:
+      - name: standards
+        label: "Applicable Standards"
+        type: multi_select
+        options:
+          - value: iso_19650
+            label: "ISO 19650 (BIM)"
+          - value: iso_55000
+            label: "ISO 55000 (Asset Management)"
+          - value: iotc
+            label: "IoTC (Industrial IoT Consortium)"
+          - value: gdpr
+            label: "GDPR (Data Privacy)"
+          - value: hipaa
+            label: "HIPAA (Healthcare)"
+          - value: other
+            label: "Other (specify in description)"
+        required: false
+      - name: compliance_notes
+        label: "Additional Compliance Notes"
+        type: textarea
+        placeholder: "Describe any other regulatory or company-specific requirements..."
+        required: false
+    next_step: step_collaboration
+
+  - id: step_collaboration
+    title: "Collaboration & Access"
+    description: "Define who can access and contribute to this digital twin."
+    fields:
+      - name: visibility
+        label: "Visibility"
+        type: radio
+        required: true
+        options:
+          - value: private
+            label: "Private (only me)"
+          - value: team
+            label: "Team (specific users/groups)"
+          - value: org
+            label: "Organization (all members)"
+            condition: "{{ twin_type == 'enterprise' }}"
+          - value: public
+            label: "Public (anyone can view)"
+            condition: "{{ twin_type == 'open_source' }}"
+      - name: team_members
+        label: "Invite Team Members"
+        type: email_list
+        placeholder: "Enter email addresses, separated by commas"
+        condition: "{{ visibility == 'team' }}"
+        required: false
+      - name: roles
+        label: "Default Role for Invited Members"
+        type: select
+        options:
+          - value: viewer
+            label: "Viewer"
+          - value: editor
+            label: "Editor"
+          - value: admin
+            label: "Admin"
+        condition: "{{ visibility == 'team' }}"
+        default: "viewer"
+    next_step: step_details
+
+  - id: step_details
+    title: "Basic Information"
+    description: "Provide a name and description for your digital twin. This will be used throughout the platform."
+    fields:
+      - name: twin_name
+        label: "Twin Name"
+        type: text
+        required: true
+        placeholder: "e.g., Mumbai Bridge #12, Factory Line A, etc."
+        validation:
+          min_length: 3
+          max_length: 100
+      - name: twin_description
+        label: "Description"
+        type: textarea
+        required: true
+        placeholder: "Describe the purpose, scope, and key objectives of this twin..."
+        validation:
+          max_length: 1000
+      - name: tags
+        label: "Tags"
+        type: tags
+        required: false
+        placeholder: "e.g., bridge, infrastructure, pilot, critical"
+      - name: estimated_size
+        label: "Estimated Data Volume (GB/month)"
+        type: number
+        required: false
+        placeholder: "Optional, helps with capacity planning"
+    next_step: step_personal_details
+
+  - id: step_personal_details
+    title: "Personal Information"
+    description: "Please provide your contact details to complete your cohort registration."
+    fields:
+      - name: full_name
+        label: "Full Name"
+        type: text
+        required: true
+        placeholder: "e.g., John Doe"
+        validation:
+          min_length: 2
+          max_length: 100
+      - name: email
+        label: "Email Address"
+        type: email
+        required: true
+        placeholder: "your.email@example.com"
+        validation:
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      - name: company
+        label: "Company / Organization"
+        type: text
+        required: true
+        placeholder: "e.g., Acme Corporation"
+        validation:
+          min_length: 2
+          max_length: 200
+      - name: contact_number
+        label: "Contact Number"
+        type: phone
+        required: true
+        placeholder: "e.g., +1 (555) 123-4567"
+        validation:
+          pattern: "^[+]?[0-9\\s\\-()]{10,}$"
+    next_step: step_review
+
+  - id: step_review
+    title: "Review and Submit"
+    description: "Please verify all information before submitting your digital twin request."
+    fields:
+      - name: terms_accepted
+        label: "I agree to the Terms of Service and Privacy Policy"
+        type: checkbox
+        required: true
+      - name: confirm
+        label: "I confirm that the information provided is accurate."
+        type: checkbox
+        required: true
+    next_step: null
+
+# Platform configuration
+config:
+  submit_endpoint: "/api/v2/digital-twin/requests"
+  save_progress_endpoint: "/api/v2/wizard/save"
+  allow_skip: false
+  enable_help_tooltips: true
+  estimated_completion_time: "7-9 minutes"

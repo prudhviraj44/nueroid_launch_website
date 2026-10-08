@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nueroid™ | Architect the Digital Twin Era</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/ff.png" />
+  <link rel="shortcut icon" href="images/ff.png" type="image/png" />
+  <link rel="apple-touch-icon" href="images/ff.png" />
+</head>
+
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <!-- Header — outside app-container for full-width sticky -->
+  <header class="site-header">
+    <div class="header-left" style="display:flex; align-items:center; gap: 1rem;">
+      <div class="logo" onclick="returnHome()" style="cursor: pointer;">NUEROID<sup></sup>&trade;</sup></div>
+    </div>
+    <div class="header-right" style="display:flex; align-items:center; gap: 1rem;">
+      <!-- <button class="btn btn-secondary btn-sm" onclick="showStatusModal()">Check Status</button> -->
+      <!-- <div class="cohort-badge">Cohort 01 · Limited Access</div> -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+        <!-- Icon will be inserted by JS -->
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+  <div class="app-container">
+    <!-- Main Content Area -->
+    <main id="main-content">
+      <!-- LANDING PAGE (Step 0) -->
+      <section id="landing-page" class="view active">
+        <div class="hero-section">
+          <h1 class="hero-title">
+            <div class="line-1">
+              <span id="hero-typewriter"></span><span class="typewriter-cursor" id="cursor-1">|</span>
+            </div>
+          </h1>
+          <p class="hero-subtitle hero-animate" style="opacity:0; transform:translateY(20px);">
+            An OS designed for individual and enterprise digital twin use cases.
+            Nueroid&trade; is onboarding a limited cohort of founders, enterprise
+            leaders, and developers to shape the foundational architecture of
+            Digital Twin OS.
+          </p>
+          <div class="cta-group hero-animate" style="opacity:0; transform:translateY(20px);">
+            <button class="btn btn-primary" onclick="startWaitlist()">
+              Join Waitlist &rarr;
+            </button>
+            <button class="btn btn-primary" onclick="startWizard()">
+              Early Access &rarr;
+            </button>
+            <!-- <button class="btn btn-secondary" onclick="window.open('https://beta.nueroid.com', '_blank')">
+                Explore Beta &nearr;
+              </button> -->
+            <!-- <button class="btn btn-secondary" onclick="scrollToSection('who-is-this-for')">
+                &rarr; Who Is This For?
+              </button> -->
+          </div>
+          <div class="cta-group hero-animate" style="opacity:0; transform:translateY(20px);">
+
+            <button class="btn btn-secondary" onclick="window.open('https://beta.nueroid.com', '_blank')">
+              Explore Beta &nearr;
+            </button>
+            <!-- <button class="btn btn-secondary" onclick="scrollToSection('who-is-this-for')">
+                &rarr; Who Is This For?
+              </button> -->
+          </div>
+
+          <div class="scarcity-indicator hero-animate" style="opacity:0; transform:translateY(20px);">
+            <span class="pulse-dot"></span>
+            <span id="applications-count">147</span> Applications Received ·
+            Next Wave: <span id="spots-remaining">25</span> Spots
+          </div>
+        </div>
+
+        <div id="who-is-this-for" class="info-section">
+          <div class="grid-2-col">
+            <div class="fit-card good-fit">
+              <h3>You are a good fit if:</h3>
+              <ul>
+                <li>You are building AI-native workflows</li>
+                <li>You lead digital transformation in an enterprise</li>
+                <li>You are experimenting with structured AI systems</li>
+                <li>You want to architect systems, not just use tools</li>
+              </ul>
+            </div>
+            <div class="fit-card not-fit">
+              <h3>This beta is NOT for:</h3>
+              <ul>
+                <li>Casual users exploring AI</li>
+                <li>Hobby experiments</li>
+                <li>Generic SaaS comparisons</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="value-prop-section">
+          <h2>What You Get</h2>
+          <div class="grid-3-col">
+            <div class="feature-item">Early platform access</div>
+            <div class="feature-item">Direct architecture collaboration</div>
+            <div class="feature-item">Private founding community</div>
+            <div class="feature-item">Roadmap influence</div>
+            <div class="feature-item">Founding builder recognition</div>
+            <div class="feature-item">Lifetime upgrade incentives</div>
+          </div>
+        </div>
+
+        <div class="scarcity-block">
+          <blockquote>
+            "We review every application manually. Access is granted based on
+            alignment with our architectural roadmap."
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- WAITLIST FORM (legacy, compact) -->
+      <section id="waitlist-form" class="view hidden">
+        <div class="form-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill-waitlist"></div>
+          </div>
+          <div class="step-indicator">
+            Step <span id="current-step-num-waitlist">1</span> of 4
+          </div>
+        </div>
+
+        <form id="beta-form" onsubmit="event.preventDefault()">
+          <!-- Step 1: Identity -->
+          <div class="form-step active" data-step="1">
+            <h2>Your profile.</h2>
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="Jane Doe" />
+            </div>
+            <div class="input-group">
+              <label>Work Email</label>
+              <input type="email" name="email" placeholder="jane@company.com" />
+            </div>
+            <div class="input-group">
+              <label>LinkedIn URL</label>
+              <input type="text" name="linkedin" placeholder="linkedin.com/in/janedoe" />
+            </div>
+            <div class="grid-2-col-narrow">
+              <div class="input-group">
+                <label>Company</label>
+                <input type="text" name="company" placeholder="Acme Inc." />
+              </div>
+              <div class="input-group">
+                <label>Role</label>
+                <input type="text" name="role" placeholder="CTO, Founder, etc." />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="nextStep()">
+                Next &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Your Vision -->
+          <div class="form-step hidden" data-step="2">
+            <h2>What are you trying to build?</h2>
+            <div class="input-group">
+              <label>Are you building:</label>
+              <select name="build_type">
+                <option value="" disabled selected>
+                  Select an option...
+                </option>
+                <option value="personal">Personal digital twin</option>
+                <option value="enterprise">Enterprise digital twin</option>
+                <option value="opensource">Open source system</option>
+                <option value="research">Research project</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Describe the system you want to model</label>
+              <textarea name="system_description" rows="4"
+                placeholder="I want to model a real-time logistics network that..."></textarea>
+            </div>
+            <div class="input-group">
+              <label>Why does this matter to you?</label>
+              <textarea name="why_matter" rows="2" placeholder="It solves the critical issue of..."></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="prevStep()">
+                Back
+              </button>
+              <button class="btn btn-primary" onclick="nextStep()">
+                Next &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Technical Depth -->
+          <div class="form-step hidden" data-step="3">
+            <h2>Your technical maturity.</h2>
+            <div class="grid-2-col forms-grid">
+              <div class="input-group">
+                <label>Team Size</label>
+                <select name="team_size">
+                  <option value="1">Just me</option>
+                  <option value="2-10">2-10</option>
+                  <option value="11-50">11-50</option>
+                  <option value="50+">50+</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Estimated Deployment Scale</label>
+                <select name="scale">
+                  <option value="prototype">Prototype</option>
+                  <option value="production_small">Small Production</option>
+                  <option value="production_large">Large Scale</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Current Tools Used</label>
+              <input type="text" name="current_tools" placeholder="AWS, Kubernetes, PyTorch, etc." />
+            </div>
+            <div class="input-group">
+              <label>AI Stack Familiarity</label>
+              <div class="radio-group">
+                <label><input type="radio" name="ai_stack" value="beginner" />
+                  Beginner</label>
+                <label><input type="radio" name="ai_stack" value="intermediate" />
+                  Intermediate</label>
+                <label><input type="radio" name="ai_stack" value="expert" />
+                  Expert</label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="prevStep()">
+                Back
+              </button>
+              <button class="btn btn-primary" onclick="nextStep()">
+                Next &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Commitment Filter -->
+          <div class="form-step hidden" data-step="4">
+            <h2>Why should you be part of Cohort 01?</h2>
+            <div class="input-group">
+              <label>How will you contribute to the ecosystem?</label>
+              <textarea name="contribution" rows="3" placeholder="I plan to open source modules for..."></textarea>
+            </div>
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" name="feedback_commitment" />
+                I am willing to provide structured feedback.
+              </label>
+              <label>
+                <input type="checkbox" name="time_commitment" />
+                I can commit 2–4 hours per week to beta collaboration.
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="prevStep()">
+                Back
+              </button>
+              <button class="btn btn-primary submit-btn" onclick="submitApplication()">
+                Submit Application
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- APPLICATION FORM (Join Cohort Wizard) -->
+      <section id="application-form" class="view hidden">
+        <div class="wizard-header">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="step-indicator">
+            Step <span id="current-step-num">1</span> of <span id="total-steps-num">10</span>
+          </div>
+        </div>
+
+        <form id="wizard-form" onsubmit="event.preventDefault()">
+          <!-- Step 1: Select Digital Twin Type -->
+          <div class="form-step active" data-step="step_type">
+            <h2>Select Digital Twin Type</h2>
+            <p class="step-description">Choose the primary context for your digital twin. This determines licensing and
+              features.</p>
+
+            <div class="radio-block-group">
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_type" value="personal" required />
+                <strong>Personal</strong>
+                <span>Individual experimentation, learning, or hobby projects. Free tier available.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_type" value="enterprise" required />
+                <strong>Enterprise</strong>
+                <span>For commercial organizations. Full feature set, team management, and support.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_type" value="open_source" required />
+                <strong>Open Source</strong>
+                <span>Community-driven projects. Public visibility and collaborative governance.</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="wizardNextStep()">
+                Next &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Choose Twin Category -->
+          <div class="form-step hidden" data-step="step_category">
+            <h2>Choose Twin Category</h2>
+            <p class="step-description">Select the category that best describes your twin's scope.</p>
+
+            <div class="radio-block-group">
+              <label class="radio-block" data-condition="enterprise" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="company" required />
+                <strong>Company Twin</strong>
+                <span>A holistic twin representing an entire organization and its processes.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="product" required />
+                <strong>Product Twin</strong>
+                <span>A twin of a specific product, covering its entire lifecycle.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="project" required />
+                <strong>Project Twin</strong>
+                <span>A twin for a specific initiative like construction or research.</span>
+              </label>
+              <label class="radio-block" data-condition="enterprise" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="system" required />
+                <strong>System Twin</strong>
+                <span>A twin of an interconnected system (e.g., power grid, transportation).</span>
+              </label>
+              <label class="radio-block" data-condition="enterprise" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="process" required />
+                <strong>Process Twin</strong>
+                <span>Focused on manufacturing or operational flow and efficiency.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="twin_category" value="asset" required />
+                <strong>Asset Twin</strong>
+                <span>A twin of a physical asset (machine, building, bridge).</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Select Industry -->
+          <div class="form-step hidden" data-step="step_industry">
+            <h2>Select Industry / Domain</h2>
+            <p class="step-description">Choose the industry that best aligns with your twin.</p>
+            <div class="input-group">
+              <label>Industry</label>
+              <select name="industry" required>
+                <option value="">Select an industry...</option>
+                <option value="aerospace">Aerospace & Defense</option>
+                <option value="automotive">Automotive</option>
+                <option value="civil_infra">Civil Infrastructure</option>
+                <option value="energy">Energy & Utilities</option>
+                <option value="healthcare">Healthcare & Medical</option>
+                <option value="manufacturing">Manufacturing & Industrial</option>
+                <option value="maritime">Maritime & Shipping</option>
+                <option value="rail">Rail & Transit</option>
+                <option value="smart_city">Smart City & Urban Planning</option>
+                <option value="consumer_goods">Consumer Goods</option>
+                <option value="research">Research & Education</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Primary Use Case -->
+          <div class="form-step hidden" data-step="step_use_case">
+            <h2>Primary Use Case</h2>
+            <p class="step-description">What is the main objective of your digital twin?</p>
+            <div class="input-group">
+              <label>Use Cases (Select at least one)</label>
+              <div class="checkbox-group-vertical">
+                <label><input type="checkbox" name="use_cases" value="realtime_monitoring" /> Real-time Monitoring &
+                  Alerts</label>
+                <label><input type="checkbox" name="use_cases" value="predictive_maintenance" /> Predictive
+                  Maintenance</label>
+                <label><input type="checkbox" name="use_cases" value="simulation" /> Simulation & What-If
+                  Analysis</label>
+                <label><input type="checkbox" name="use_cases" value="design_validation" /> Design Validation &
+                  Prototyping</label>
+                <label><input type="checkbox" name="use_cases" value="asset_management" /> Asset Lifecycle
+                  Management</label>
+                <label><input type="checkbox" name="use_cases" value="sustainability" /> Sustainability & Carbon
+                  Footprint</label>
+                <label><input type="checkbox" name="use_cases" value="training" /> Training & VR/AR</label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 5: Data Sources -->
+          <div class="form-step hidden" data-step="step_data_sources">
+            <h2>Data Sources & Integration</h2>
+            <p class="step-description">Select the data sources you plan to integrate.</p>
+            <div class="input-group">
+              <label>Data Sources</label>
+              <div class="checkbox-group-vertical">
+                <label><input type="checkbox" name="data_sources" value="iot_sensors" /> IoT Sensor Data
+                  (Real-time)</label>
+                <label><input type="checkbox" name="data_sources" value="cad_models" /> CAD / 3D Models</label>
+                <label><input type="checkbox" name="data_sources" value="gis_data" /> GIS / Geospatial Data</label>
+                <label><input type="checkbox" name="data_sources" value="lidar_scans" /> LiDAR / Point Clouds</label>
+                <label><input type="checkbox" name="data_sources" value="imagery" /> Photographs / Video</label>
+                <label><input type="checkbox" name="data_sources" value="acoustic" /> Acoustic / Ultrasonic</label>
+                <label><input type="checkbox" name="data_sources" value="bim" /> BIM Models</label>
+                <label><input type="checkbox" name="data_sources" value="historical_records" /> Historical Maintenance
+                  Records</label>
+              </div>
+            </div>
+            <div id="real-time-group" class="input-group hidden">
+              <label class="checkbox-label">
+                <input type="checkbox" name="has_real_time" />
+                Do you require real-time data streaming?
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 6: Compliance -->
+          <div class="form-step hidden" data-step="step_compliance">
+            <h2>Compliance & Standards</h2>
+            <p class="step-description">Specify any standards your twin must adhere to.</p>
+            <div class="input-group">
+              <label>Applicable Standards</label>
+              <div class="checkbox-group-vertical">
+                <label><input type="checkbox" name="standards" value="iso_19650" /> ISO 19650 (BIM)</label>
+                <label><input type="checkbox" name="standards" value="iso_55000" /> ISO 55000 (Assets)</label>
+                <label><input type="checkbox" name="standards" value="iotc" /> IoTC (Industrial IoT)</label>
+                <label><input type="checkbox" name="standards" value="gdpr" /> GDPR (Data Privacy)</label>
+                <label><input type="checkbox" name="standards" value="hipaa" /> HIPAA (Healthcare)</label>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Compliance Notes</label>
+              <textarea name="compliance_notes" rows="2" placeholder="Describe other requirements..."></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 7: Collaboration -->
+          <div class="form-step hidden" data-step="step_collaboration">
+            <h2>Collaboration & Access</h2>
+            <p class="step-description">Define who can access and contribute to this twin.</p>
+
+            <div class="radio-block-group">
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="visibility" value="private" required />
+                <strong>Private</strong>
+                <span>Only accessible by you.</span>
+              </label>
+              <label class="radio-block" onclick="selectRadio(this)">
+                <input type="radio" name="visibility" value="team" required />
+                <strong>Team</strong>
+                <span>Collaborate with specific invited members.</span>
+              </label>
+              <label class="radio-block" data-condition="enterprise" onclick="selectRadio(this)">
+                <input type="radio" name="visibility" value="org" required />
+                <strong>Organization</strong>
+                <span>Accessible to everyone in your company.</span>
+              </label>
+              <label class="radio-block" data-condition="open_source" onclick="selectRadio(this)">
+                <input type="radio" name="visibility" value="public" required />
+                <strong>Public</strong>
+                <span>Anyone can view from the public repository.</span>
+              </label>
+            </div>
+
+            <div id="team-members-group" class="input-group hidden" style="margin-top: 2rem;">
+              <label>Invite Team Members (Emails)</label>
+              <input type="text" name="team_members" placeholder="jane@company.com, mark@company.com" />
+              <label style="margin-top: 1rem;">Default Role</label>
+              <select name="roles">
+                <option value="viewer">Viewer</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 8: Detail Info -->
+          <div class="form-step hidden" data-step="step_details">
+            <h2>Basic Information</h2>
+            <p class="step-description">Provide a name and metadata for your digital twin.</p>
+            <div class="input-group">
+              <label>Twin Name</label>
+              <input type="text" name="twin_name" required placeholder="e.g., Mumbai Bridge #12" />
+            </div>
+            <div class="input-group">
+              <label>Description</label>
+              <textarea name="twin_description" rows="3" required placeholder="Purpose and scope..."></textarea>
+            </div>
+            <div class="grid-2-col forms-grid">
+              <div class="input-group">
+                <label>Tags (comma-separated)</label>
+                <input type="text" name="tags" placeholder="bridge, info, pilot" />
+              </div>
+              <div class="input-group">
+                <label>Est. Data Volume (GB/mo)</label>
+                <input type="number" name="estimated_size" placeholder="e.g., 50" />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 9: Personal Information -->
+          <div class="form-step hidden" data-step="step_personal_details">
+            <h2>Contact Information</h2>
+            <p class="step-description">Please provide your contact details.</p>
+            <div class="grid-2-col forms-grid">
+              <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" required placeholder="John Doe" />
+              </div>
+              <div class="input-group">
+                <label>Work Email</label>
+                <input type="email" name="email" required placeholder="john@example.com" />
+              </div>
+            </div>
+            <div class="grid-2-col forms-grid">
+              <div class="input-group">
+                <label>Company / Organization</label>
+                <input type="text" name="company" required placeholder="Acme Corp" />
+              </div>
+              <div class="input-group">
+                <label>Contact Number</label>
+                <div class="phone-input-container">
+                  <select name="country_code" class="country-select">
+                    <option value="+91" selected>+91 (IN)</option>
+                    <option value="+1">+1 (US/CA)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+61">+61 (AU)</option>
+                    <option value="+65">+65 (SG)</option>
+                    <option value="+971">+971 (UAE)</option>
+                    <option value="+49">+49 (DE)</option>
+                    <option value="+81">+81 (JP)</option>
+                  </select>
+                  <input type="tel" name="contact_number" required placeholder="98765 43210" />
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary" onclick="wizardNextStep()">Next &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Step 10: Review and Submit -->
+          <div class="form-step hidden" data-step="step_review">
+            <h2>Review and Submit</h2>
+            <p class="step-description">Verify all information before joining the cohort.</p>
+            <div class="review-container" id="review-summary"></div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="terms_accepted" required />
+                I agree to the Terms & Privacy Policy
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="confirm" required />
+                I confirm the information is accurate.
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="wizardPrevStep()">Back</button>
+              <button class="btn btn-primary submit-btn" onclick="submitWizardForm()">
+                Submit Application
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- CONFIRMATION PAGE (Step 5) -->
+      <section id="confirmation-page" class="view hidden">
+        <div class="success-container">
+          <div class="success-icon">🎉</div>
+          <h1>You’ve Applied to Build the Future.</h1>
+          <p class="success-message">
+            Your application is under review by the Nueroid&trade; core team.
+          </p>
+
+          <div class="status-card">
+            <div class="status-header">Application Status</div>
+            <div class="status-value">Under Review</div>
+            <div class="status-note">
+              Cohort 01 access invitations will be sent in rolling waves.
+            </div>
+          </div>
+
+          <div class="next-steps">
+            <h3>While you wait:</h3>
+            <div class="links-list">
+              <a href="#" class="link-item">Join our private builder updates &rarr;</a>
+              <a href="#" class="link-item">Read our architecture manifesto &rarr;</a>
+              <a href="#" class="link-item">Connect on LinkedIn &rarr;</a>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="returnHome()">
+            Return Home
+          </button>
+        </div>
+      </section>
+      <!-- STATUS CHECK MODAL -->
+      <div id="status-modal" class="modal hidden">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeStatusModal()">&times;</span>
+          <h2>Check Application Status</h2>
+          <p>Enter the email you used to apply.</p>
+          <div class="input-group">
+            <input type="email" id="status-email" placeholder="jane@company.com">
+          </div>
+          <button class="btn btn-primary" onclick="checkStatus()">Check Status</button>
+          <div id="status-result" class="hidden">
+            <!-- Result populated by JS -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js?v=1.1"></script>
+</body>
+
+</html>
